@@ -8,6 +8,12 @@
     --color-absent: #3a3a3c;
     --color-present: #b59f3b;
     --color-correct: #538d4e;
+    --hover-border-color: #818384;
+    --error-color: #f44336;
+    --invalid-input-bg: #2a1515;
+    --invalid-input-border: #c94a4a;
+    --button-bg: #818384;
+    --button-hover-bg: #9a9b9d;
 }
 
 .wordle-tile {
@@ -28,7 +34,7 @@
 }
 
 .wordle-tile:hover {
-    border-color: #818384;
+    border-color: var(--hover-border-color);
     transform: scale(1.03);
 }
 
@@ -80,13 +86,14 @@ body {
 }
 
 .solution-input.invalid {
-    border-color: #c94a4a;
-    background-color: #2a1515;
+    border-color: var(--invalid-input-border);
+    background-color: var(--invalid-input-bg);
 }
 
-.solution-error {
+.solution-error,
+.grid-error {
     font-size: 0.8rem;
-    color: #f44336;
+    color: var(--error-color);
     margin-top: 0.25rem;
     display: none;
 }
@@ -107,7 +114,7 @@ body {
 
 .solution-input:focus {
     outline: none;
-    border-color: #818384;
+    border-color: var(--hover-border-color);
 }
 
 .grid-section {
@@ -121,25 +128,6 @@ body {
     gap: 5px;
 }
 
-.grid-error {
-    font-size: 0.8rem;
-    color: #f44336;
-    margin-top: 0.25rem;
-    display: none;
-}
-
-.wordle-tile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    background-color: var(--tile-bg);
-    border: 2px solid var(--tile-border);
-    user-select: none;
-}
-
 .calculator-section {
     margin-top: 1.5rem;
 }
@@ -150,7 +138,7 @@ body {
     font-weight: 600;
     letter-spacing: 0.05em;
     color: var(--text-color);
-    background-color: #818384;
+    background-color: var(--button-bg);
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -160,7 +148,7 @@ body {
 }
 
 .run-calculator-button:hover {
-    background-color: #9a9b9d;
+    background-color: var(--button-hover-bg);
     transform: translateY(-1px);
 }
 
