@@ -1,3 +1,5 @@
+import { isValidWordleSolution } from "./words";
+
 type TileState = 0 | 1 | 2;
 
 const ROWS = 6;
@@ -45,21 +47,30 @@ function createGrid(gridElement: HTMLElement): void {
 	}
 }
 
-function isValidSolution(value: string): boolean {
-	return /^[a-zA-Z]{5}$/.test(value);
-}
+async function runCalculator(
+	solutionInput: HTMLInputElement,
+	errorElement: HTMLElement
+): Promise<void> {
+	const value = solutionInput.value.trim().toLowerCase();
+	const isFiveLetters = /^[a-zA-Z]{5}$/.test(value);
 
-function runCalculator(solutionInput: HTMLInputElement, errorElement: HTMLElement): void {
-	const value = solutionInput.value.trim();
-
-	if (!isValidSolution(value)) {
+	if (!isFiveLetters) {
 		solutionInput.classList.add("invalid");
+		errorElement.textContent = "Solution must be 5 letters.";
 		errorElement.style.display = "block";
 		return;
 	}
 
-	errorElement.style.display = "none";
-	console.log("Valid solution:", value.toUpperCase());
+	const valid: boolean = await isValidWordleSolution(value);
+
+	if (!valid) {
+		solutionInput.classList.add("invalid");
+		errorElement.textContent = "Solution is not in Wordle's solutions list.";
+		errorElement.style.display = "block";
+		return;
+	}
+
+	console.log(`Valid Solution Submitted: ${value}`);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -78,7 +89,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	createGrid(gridElement);
 
 	runButton.addEventListener("click", () => {
-		runCalculator(solutionInput, solutionError);
+		runCalculator(solutionInput, solutionError).catch(err => {
+			if (err instanceof Error) { console.error(err.message); }
+			else { console.error("Unknown error", err); }
+		});
 	});
 
 	solutionInput.addEventListener("input", () => {
