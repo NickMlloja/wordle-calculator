@@ -14,20 +14,9 @@ function createTile(): HTMLDivElement {
 	function applyState(): void {
 		tile.classList.remove("state-absent", "state-present", "state-correct");
 
-		if (state === 0) {
-			tile.classList.add("state-absent");
-			return;
-		}
-
-		if (state === 1) {
-			tile.classList.add("state-present");
-			return;
-		}
-
-		if (state === 2) {
-			tile.classList.add("state-correct");
-			return;
-		}
+		if (state === 0) { tile.classList.add("state-absent"); }
+		else if (state === 1) { tile.classList.add("state-present"); }
+		else if (state === 2) { tile.classList.add("state-correct"); }
 	}
 
 	tile.addEventListener("click", () => {
@@ -47,26 +36,64 @@ function createGrid(gridElement: HTMLElement): void {
 	}
 }
 
+function isFiveLetters(word: string): boolean {
+	return /^[a-zA-Z]{5}$/.test(word);
+}
+
+async function isSolutionValid(word: string): Promise<boolean> {
+	return await isValidWordleSolution(word);
+}
+
+function checkTileRules(gridElement: HTMLElement): string | null {
+	const tiles = Array.from(gridElement.children).filter((el): el is HTMLDivElement => el instanceof HTMLDivElement);
+
+	for (let row = 0; row < ROWS - 1; row += 1) {
+		const rowTiles = tiles.slice(row * COLS, (row + 1) * COLS);
+		const allGreen = rowTiles.every(tile => tile.classList.contains("state-correct"));
+
+		if (!allGreen) { continue; }
+
+		for (let r = row + 1; r < ROWS; r += 1) {
+			const belowTiles = tiles.slice(r * COLS, (r + 1) * COLS);
+			if (belowTiles.some(tile => !tile.classList.contains("state-absent"))) {
+				return "Cannot have non-grey tiles below an all-green row.";
+			}
+		}
+	}
+
+	return null;
+}
+
 async function runCalculator(
 	solutionInput: HTMLInputElement,
-	errorElement: HTMLElement
+	solutionError: HTMLElement,
+	gridElement: HTMLElement,
+	gridError: HTMLElement
 ): Promise<void> {
 	const value = solutionInput.value.trim().toLowerCase();
-	const isFiveLetters = /^[a-zA-Z]{5}$/.test(value);
 
-	if (!isFiveLetters) {
+	solutionError.style.display = "none";
+	gridError.style.display = "none";
+	solutionInput.classList.remove("invalid");
+
+	if (!isFiveLetters(value)) {
 		solutionInput.classList.add("invalid");
-		errorElement.textContent = "Solution must be 5 letters.";
-		errorElement.style.display = "block";
+		solutionError.textContent = "Solution must be 5 letters.";
+		solutionError.style.display = "block";
 		return;
 	}
 
-	const valid: boolean = await isValidWordleSolution(value);
-
-	if (!valid) {
+	if (!(await isSolutionValid(value))) {
 		solutionInput.classList.add("invalid");
-		errorElement.textContent = "Solution is not in Wordle's solutions list.";
-		errorElement.style.display = "block";
+		solutionError.textContent = "Solution is not in Wordle's solutions list.";
+		solutionError.style.display = "block";
+		return;
+	}
+
+	const tileError = checkTileRules(gridElement);
+	if (tileError !== null) {
+		gridError.textContent = tileError;
+		gridError.style.display = "block";
 		return;
 	}
 
@@ -75,29 +102,30 @@ async function runCalculator(
 
 document.addEventListener("DOMContentLoaded", () => {
 	const gridElement = document.getElementById("wordle-grid");
-	if (!(gridElement instanceof HTMLElement)) { throw new Error("Wordle grid container not found"); }
+	if (gridElement === null) { throw new Error("Wordle grid container not found"); }
 
 	const runButton = document.getElementById("run-calculator-button");
-	if (!(runButton instanceof HTMLElement)) { throw new Error("Run Calculator button not found"); }
+	if (runButton === null) { throw new Error("Run Calculator button not found"); }
 
 	const solutionInput = document.getElementById("solution-input");
 	if (!(solutionInput instanceof HTMLInputElement)) { throw new Error("Solution input not found"); }
 
 	const solutionError = document.getElementById("solution-error");
-	if (!(solutionError instanceof HTMLElement)) { throw new Error("Solution error element not found"); }
+	if (solutionError === null) { throw new Error("Solution error element not found"); }
+
+	const gridError = document.getElementById("grid-error");
+	if (gridError === null) { throw new Error("Grid error element not found"); }
 
 	createGrid(gridElement);
 
 	runButton.addEventListener("click", () => {
-		runCalculator(solutionInput, solutionError).catch(err => {
-			if (err instanceof Error) { console.error(err.message); }
-			else { console.error("Unknown error", err); }
-		});
+		void runCalculator(solutionInput, solutionError, gridElement, gridError);
 	});
 
 	solutionInput.addEventListener("input", () => {
 		solutionInput.classList.remove("invalid");
 		solutionError.style.display = "none";
+		gridError.style.display = "none";
 	});
 
 	console.log("Page initialized.");

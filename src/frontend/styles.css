@@ -121,6 +121,13 @@ body {
     gap: 5px;
 }
 
+.grid-error {
+    font-size: 0.8rem;
+    color: #f44336;
+    margin-top: 0.25rem;
+    display: none;
+}
+
 .wordle-tile {
     display: flex;
     align-items: center;
