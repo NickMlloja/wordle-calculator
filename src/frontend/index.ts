@@ -43,7 +43,7 @@ const createTile = (): HTMLDivElement => {
 	};
 
 	tile.addEventListener("click", (): void => {
-		state = ((state + 1) % 3) as TileState;
+		state = ((state + 1) % 3);
 		applyState();
 	});
 
@@ -59,9 +59,24 @@ const createGrid = (): void => {
 	}
 };
 
-document.addEventListener('DOMContentLoaded', (): void => {
+const runCalculator = (): void => {
+	console.log("Run Calculator clicked.");
+};
+
+document.addEventListener("DOMContentLoaded", (): void => {
 	void (async (): Promise<void> => {
 		createGrid();
-		console.log('Page initialized.');
+
+		const runButton: HTMLElement | null = document.getElementById("run-calculator-button");
+
+		if (runButton === null) {
+			throw new Error("Run Calculator button not found.");
+		}
+
+		runButton.addEventListener("click", (): void => {
+			runCalculator();
+		});
+
+		console.log("Page initialized.");
 	})();
 });
