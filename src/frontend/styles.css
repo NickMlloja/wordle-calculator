@@ -79,6 +79,18 @@ body {
     width: 240px;
 }
 
+.solution-input.invalid {
+    border-color: #c94a4a;
+    background-color: #2a1515;
+}
+
+.solution-error {
+    font-size: 0.8rem;
+    color: #f44336;
+    margin-top: 0.25rem;
+    display: none;
+}
+
 .solution-label {
     font-size: 0.9rem;
     opacity: 0.85;

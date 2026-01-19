@@ -1,82 +1,90 @@
-
-
 type TileState = 0 | 1 | 2;
 
-const ROWS: number = 6;
-const COLS: number = 5;
+const ROWS = 6;
+const COLS = 5;
 
-const gridElement: HTMLElement | null =
-	document.getElementById("wordle-grid");
-
-if (gridElement === null) {
-	throw new Error("Wordle grid container not found");
-}
-
-const createTile = (): HTMLDivElement => {
-	const tile: HTMLDivElement = document.createElement("div");
+function createTile(): HTMLDivElement {
+	const tile = document.createElement("div");
 	tile.className = "wordle-tile state-absent";
 
 	let state: TileState = 0;
 
-	const applyState = (): void => {
-		tile.classList.remove(
-			"state-absent",
-			"state-present",
-			"state-correct"
-		);
+	function applyState(): void {
+		tile.classList.remove("state-absent", "state-present", "state-correct");
 
-		switch (state) {
-			case 0:
-				tile.classList.add("state-absent");
-				break;
-			case 1:
-				tile.classList.add("state-present");
-				break;
-			case 2:
-				tile.classList.add("state-correct");
-				break;
-			default: {
-				const _exhaustive: never = state;
-				return _exhaustive;
-			}
+		if (state === 0) {
+			tile.classList.add("state-absent");
+			return;
 		}
-	};
 
-	tile.addEventListener("click", (): void => {
-		state = ((state + 1) % 3);
+		if (state === 1) {
+			tile.classList.add("state-present");
+			return;
+		}
+
+		if (state === 2) {
+			tile.classList.add("state-correct");
+			return;
+		}
+	}
+
+	tile.addEventListener("click", () => {
+		state = (state + 1) % 3;
 		applyState();
 	});
 
 	return tile;
-};
+}
 
-const createGrid = (): void => {
-	for (let row: number = 0; row < ROWS; row += 1) {
-		for (let col: number = 0; col < COLS; col += 1) {
-			const tile: HTMLDivElement = createTile();
+function createGrid(gridElement: HTMLElement): void {
+	for (let row = 0; row < ROWS; row += 1) {
+		for (let col = 0; col < COLS; col += 1) {
+			const tile = createTile();
 			gridElement.appendChild(tile);
 		}
 	}
-};
+}
 
-const runCalculator = (): void => {
-	console.log("Run Calculator clicked.");
-};
+function isValidSolution(value: string): boolean {
+	return /^[a-zA-Z]{5}$/.test(value);
+}
 
-document.addEventListener("DOMContentLoaded", (): void => {
-	void (async (): Promise<void> => {
-		createGrid();
+function runCalculator(solutionInput: HTMLInputElement, errorElement: HTMLElement): void {
+	const value = solutionInput.value.trim();
 
-		const runButton: HTMLElement | null = document.getElementById("run-calculator-button");
+	if (!isValidSolution(value)) {
+		solutionInput.classList.add("invalid");
+		errorElement.style.display = "block";
+		return;
+	}
 
-		if (runButton === null) {
-			throw new Error("Run Calculator button not found.");
-		}
+	errorElement.style.display = "none";
+	console.log("Valid solution:", value.toUpperCase());
+}
 
-		runButton.addEventListener("click", (): void => {
-			runCalculator();
-		});
+document.addEventListener("DOMContentLoaded", () => {
+	const gridElement = document.getElementById("wordle-grid");
+	if (!(gridElement instanceof HTMLElement)) { throw new Error("Wordle grid container not found"); }
 
-		console.log("Page initialized.");
-	})();
+	const runButton = document.getElementById("run-calculator-button");
+	if (!(runButton instanceof HTMLElement)) { throw new Error("Run Calculator button not found"); }
+
+	const solutionInput = document.getElementById("solution-input");
+	if (!(solutionInput instanceof HTMLInputElement)) { throw new Error("Solution input not found"); }
+
+	const solutionError = document.getElementById("solution-error");
+	if (!(solutionError instanceof HTMLElement)) { throw new Error("Solution error element not found"); }
+
+	createGrid(gridElement);
+
+	runButton.addEventListener("click", () => {
+		runCalculator(solutionInput, solutionError);
+	});
+
+	solutionInput.addEventListener("input", () => {
+		solutionInput.classList.remove("invalid");
+		solutionError.style.display = "none";
+	});
+
+	console.log("Page initialized.");
 });
