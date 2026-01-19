@@ -1,3 +1,7 @@
+
+
+type TileState = 0 | 1 | 2;
+
 const ROWS: number = 6;
 const COLS: number = 5;
 
@@ -10,7 +14,39 @@ if (gridElement === null) {
 
 const createTile = (): HTMLDivElement => {
 	const tile: HTMLDivElement = document.createElement("div");
-	tile.className = "wordle-tile";
+	tile.className = "wordle-tile state-absent";
+
+	let state: TileState = 0;
+
+	const applyState = (): void => {
+		tile.classList.remove(
+			"state-absent",
+			"state-present",
+			"state-correct"
+		);
+
+		switch (state) {
+			case 0:
+				tile.classList.add("state-absent");
+				break;
+			case 1:
+				tile.classList.add("state-present");
+				break;
+			case 2:
+				tile.classList.add("state-correct");
+				break;
+			default: {
+				const _exhaustive: never = state;
+				return _exhaustive;
+			}
+		}
+	};
+
+	tile.addEventListener("click", (): void => {
+		state = ((state + 1) % 3) as TileState;
+		applyState();
+	});
+
 	return tile;
 };
 
@@ -18,23 +54,6 @@ const createGrid = (): void => {
 	for (let row: number = 0; row < ROWS; row += 1) {
 		for (let col: number = 0; col < COLS; col += 1) {
 			const tile: HTMLDivElement = createTile();
-
-			// Example
-			if (row === 0) {
-				const exampleLetters: readonly string[] = [
-					"C",
-					"R",
-					"A",
-					"N",
-					"E"
-				];
-
-				const letter: string | undefined = exampleLetters[col];
-				if (letter !== undefined) {
-					tile.textContent = letter;
-				}
-			}
-
 			gridElement.appendChild(tile);
 		}
 	}

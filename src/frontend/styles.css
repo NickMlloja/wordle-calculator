@@ -1,73 +1,13 @@
 :root {
-	--bg-color: #121213;
-	--text-color: #ffffff;
-	--border-color: #3a3a3c;
-	--tile-bg: #121213;
-	--tile-border: #565758;
-	--input-bg: #1a1a1b;
-}
-
-* {
-	box-sizing: border-box;
-}
-
-body {
-	margin: 0;
-	font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-	background-color: var(--bg-color);
-	color: var(--text-color);
-}
-
-.app {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 2rem;
-	gap: 1.5rem;
-}
-
-.title {
-	margin: 0;
-	font-size: 2.5rem;
-	letter-spacing: 0.1em;
-}
-
-.solution-section {
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-	width: 240px;
-}
-
-.solution-label {
-	font-size: 0.9rem;
-	opacity: 0.85;
-}
-
-.solution-input {
-	padding: 0.5rem;
-	font-size: 1rem;
-	text-transform: uppercase;
-	background-color: var(--input-bg);
-	color: var(--text-color);
-	border: 1px solid var(--border-color);
-	border-radius: 4px;
-}
-
-.solution-input:focus {
-	outline: none;
-	border-color: #818384;
-}
-
-.grid-section {
-	margin-top: 1rem;
-}
-
-.wordle-grid {
-	display: grid;
-	grid-template-columns: repeat(5, 62px);
-	grid-template-rows: repeat(6, 62px);
-	gap: 5px;
+    --bg-color: #121213;
+    --text-color: #ffffff;
+    --border-color: #3a3a3c;
+    --tile-bg: #121213;
+    --tile-border: #565758;
+    --input-bg: #1a1a1b;
+    --color-absent: #3a3a3c;
+    --color-present: #b59f3b;
+    --color-correct: #538d4e;
 }
 
 .wordle-tile {
@@ -80,4 +20,104 @@ body {
 	background-color: var(--tile-bg);
 	border: 2px solid var(--tile-border);
 	user-select: none;
+	cursor: pointer;
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease,
+		transform 0.05s ease;
+}
+
+.wordle-tile:hover {
+	border-color: #818384;
+	transform: scale(1.03);
+}
+
+.wordle-tile.state-absent {
+	background-color: var(--color-absent);
+	border-color: var(--color-absent);
+}
+
+.wordle-tile.state-present {
+	background-color: var(--color-present);
+	border-color: var(--color-present);
+}
+
+.wordle-tile.state-correct {
+	background-color: var(--color-correct);
+	border-color: var(--color-correct);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 1.5rem;
+}
+
+.title {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 0.1em;
+}
+
+.solution-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 240px;
+}
+
+.solution-label {
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+.solution-input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.solution-input:focus {
+    outline: none;
+    border-color: #818384;
+}
+
+.grid-section {
+    margin-top: 1rem;
+}
+
+.wordle-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 62px);
+    grid-template-rows: repeat(6, 62px);
+    gap: 5px;
+}
+
+.wordle-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: var(--tile-bg);
+    border: 2px solid var(--tile-border);
+    user-select: none;
 }
