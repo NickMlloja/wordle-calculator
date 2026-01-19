@@ -39,7 +39,7 @@ export default [
             "@typescript-eslint/no-floating-promises": "error",
             "@typescript-eslint/restrict-plus-operands": "error",
             "@typescript-eslint/restrict-template-expressions": "error",
-
+            "@typescript-eslint/consistent-type-assertions": ["error", { assertionStyle: "never" }],
             "no-debugger": "error",
             "eqeqeq": ["error", "always"],
             "curly": "error",
