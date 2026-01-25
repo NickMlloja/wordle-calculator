@@ -5,6 +5,9 @@ import { fileURLToPath } from 'url';
 const app = express();
 const PORT = 8081;
 
+// #TODO: Deploy on vercel? 
+// https://vercel.com/
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
