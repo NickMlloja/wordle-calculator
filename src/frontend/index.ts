@@ -101,8 +101,8 @@ function mapSolutionInput(gridElement: HTMLElement): InputSeries {
 async function runCalculator(
 	solutionInput: HTMLInputElement,
 	solutionError: HTMLElement,
-	gridElement: HTMLElement,
-	gridError: HTMLElement
+	gridElement:   HTMLElement,
+	gridError:     HTMLElement
 ): Promise<void> {
 	const value = solutionInput.value.trim().toLowerCase();
 
@@ -131,8 +131,12 @@ async function runCalculator(
 		return;
 	}
 
+	const inputs = mapSolutionInput(gridElement)
 	console.log(`Valid Solution Submitted: ${value}`);
-	getAllSolutionSeries();
+	console.log(`Valid Input Submitted: `, inputs);
+	
+	const solutions = getAllSolutionSeries(value, inputs);
+	console.log(`Solutions Calculated: `, solutions);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
