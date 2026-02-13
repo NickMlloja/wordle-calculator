@@ -132,10 +132,7 @@ async function runCalculator(
 	}
 
 	const inputs = mapSolutionInput(gridElement)
-	console.log(`Valid Solution Submitted: ${value}`);
-	console.log(`Valid Input Submitted: `, inputs);
-	
-	const solutions = getAllSolutionSeries(value, inputs);
+	const solutions = await getAllSolutionSeries(value, inputs);
 	console.log(`Solutions Calculated: `, solutions);
 }
 
