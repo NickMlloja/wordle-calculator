@@ -1,6 +1,5 @@
 import { isValidWordleSolution } from "./words";
-
-type TileState = 0 | 1 | 2;
+import { getAllSolutionSeries, type TileState } from "./solver";
 
 const ROWS = 6;
 const COLS = 5;
@@ -98,6 +97,7 @@ async function runCalculator(
 	}
 
 	console.log(`Valid Solution Submitted: ${value}`);
+	getAllSolutionSeries();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
