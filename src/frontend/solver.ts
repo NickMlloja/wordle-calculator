@@ -1,3 +1,4 @@
+import { loadSolutionsCsv } from "./words";
 
 export enum TileState {
     Absent  = 0,
@@ -80,6 +81,7 @@ function doesGuessMatchInput(
 // #TODO: Different complexities of solver algos with measured operations
 export function getAllSolutionSeries(wordleSolution: string, wordleGraph: InputSeries): Set<SolutionSeries> {
     const solutions = new Set<SolutionSeries>();
+    const words = loadSolutionsCsv();
 
     // #TODO
 

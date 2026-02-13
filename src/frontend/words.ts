@@ -1,6 +1,6 @@
 let cachedSolutionSet: Set<string> | null = null;
 
-async function loadSolutionsCsv(): Promise<Set<string>> {
+export async function loadSolutionsCsv(): Promise<Set<string>> {
     if (cachedSolutionSet !== null) { return cachedSolutionSet; }
 
     const response: Response = await fetch("/words/solutions.csv");
