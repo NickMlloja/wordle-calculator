@@ -1,5 +1,5 @@
 import { isValidWordleSolution } from "./words";
-import { getAllSolutionSeries, type TileState } from "./solver";
+import { getAllSolutionSeries, TileState } from "./solver";
 
 const ROWS = 6;
 const COLS = 5;
@@ -8,14 +8,14 @@ function createTile(): HTMLDivElement {
 	const tile = document.createElement("div");
 	tile.className = "wordle-tile state-absent";
 
-	let state: TileState = 0;
+	let state = TileState.Absent;
 
 	function applyState(): void {
 		tile.classList.remove("state-absent", "state-present", "state-correct");
 
-		if (state === 0) { tile.classList.add("state-absent"); }
-		else if (state === 1) { tile.classList.add("state-present"); }
-		else if (state === 2) { tile.classList.add("state-correct"); }
+		if 		(state === TileState.Absent)   { tile.classList.add("state-absent");  }
+		else if (state === TileState.Present)  { tile.classList.add("state-present"); }
+		else if (state === TileState.Correct)  { tile.classList.add("state-correct"); }
 	}
 
 	tile.addEventListener("click", () => {

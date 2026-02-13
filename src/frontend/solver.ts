@@ -33,4 +33,8 @@ export function getAllSolutionSeries(): Set<solutionSeries> {
     return solutions;
 }
 
-export type TileState = 0 | 1 | 2;
+export enum TileState {
+    Absent  = 0,
+    Present = 1,
+    Correct = 2,
+}
