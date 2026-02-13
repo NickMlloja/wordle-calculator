@@ -1,5 +1,5 @@
 import { isValidWordleSolution } from "./words";
-import { getAllSolutionSeries, TileState } from "./solver";
+import { getAllSolutionSeries, TileState, type InputSeries, type WordleInput } from "./solver";
 
 const ROWS = 6;
 const COLS = 5;
@@ -61,6 +61,41 @@ function checkTileRules(gridElement: HTMLElement): string | null {
 	}
 
 	return null;
+}
+
+function mapSolutionInput(gridElement: HTMLElement): InputSeries {
+	const tiles = Array.from(gridElement.children).filter(
+		(el): el is HTMLDivElement => el instanceof HTMLDivElement
+	);
+
+	function getTileState(tile: HTMLDivElement | undefined): TileState {
+		if (!tile) { return TileState.Absent; }
+ 		if (tile.classList.contains("state-correct")) { return TileState.Correct; }
+		if (tile.classList.contains("state-present")) { return TileState.Present; }
+		return TileState.Absent;
+	}
+
+	function buildRow(rowIndex: number): WordleInput {
+		const start = rowIndex * COLS;
+		const rowTiles = tiles.slice(start, start + COLS);
+
+		return [
+			getTileState(rowTiles[0]),
+			getTileState(rowTiles[1]),
+			getTileState(rowTiles[2]),
+			getTileState(rowTiles[3]),
+			getTileState(rowTiles[4]),
+		];
+	}
+
+	return [
+		buildRow(0),
+		buildRow(1),
+		buildRow(2),
+		buildRow(3),
+		buildRow(4),
+		buildRow(5),
+	];
 }
 
 async function runCalculator(
