@@ -4,6 +4,15 @@ import { getAllSolutionSeries, TileState, type InputSeries, type WordleInput } f
 const ROWS = 6;
 const COLS = 5;
 
+// #TODO:
+// - Repeat Words Checkbox
+// - Different Algos
+// - Live Calculator?
+// - Output Visualization
+// - Output Statistics
+// - Clear Grid Button
+// - Unit Tests
+
 function createTile(): HTMLDivElement {
 	const tile = document.createElement("div");
 	tile.className = "wordle-tile state-absent";
