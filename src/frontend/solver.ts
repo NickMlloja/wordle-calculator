@@ -1,7 +1,7 @@
 import { loadSolutionsCsv } from "./words";
 
 // Limit Cartesian Product Explosion
-const MAX_SOLUTIONS = 1000;
+export const MAX_SOLUTIONS = 1000;
 
 export enum TileState {
     Absent  = 0,
@@ -9,9 +9,9 @@ export enum TileState {
     Correct = 2,
 }
 
-export type WordleInput = [TileState, TileState, TileState, TileState, TileState];
-export type InputSeries = [WordleInput, WordleInput, WordleInput, WordleInput, WordleInput, WordleInput];
-type SolutionSeries     = [string, string, string, string, string, string];
+export type WordleInput     = [TileState, TileState, TileState, TileState, TileState];
+export type InputSeries     = [WordleInput, WordleInput, WordleInput, WordleInput, WordleInput, WordleInput];
+export type SolutionSeries  = [string, string, string, string, string, string];
 
 function isRowAllGrey(pattern: WordleInput): boolean {
     return pattern.every((s) => { return s === TileState.Absent; });
@@ -22,7 +22,7 @@ function isRowAllCorrect(pattern: WordleInput): boolean {
 }
 
 // Convert an input word and solution word into the 
-function guessToInput(guess: string, solution: string): WordleInput {
+export function guessToInput(guess: string, solution: string): WordleInput {
     if (guess.length !== 5 || solution.length !== 5) {
         throw new Error("Expected 5 letter words");
     }
