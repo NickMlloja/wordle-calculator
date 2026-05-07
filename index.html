@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wordle Calculator</title>
+  <script type="module" crossorigin src="/wordle-calculator/assets/index-fSR3o2ub.js"></script>
+  <link rel="stylesheet" crossorigin href="/wordle-calculator/assets/index-BgUg9E9H.css">
+</head>
+
+<body>
+    <main class="app">
+        <h1 class="title">Wordle Calculator</h1>
+
+        <section class="solution-section">
+            <label for="solution-input" class="solution-label">Solution</label>
+            <input id="solution-input" type="text" class="solution-input" placeholder="e.g. Apple" maxlength="5" />
+            <span id="solution-error" class="solution-error">Solution must be 5 letters.</span>
+        </section>
+
+        <section class="grid-section">
+            <div id="wordle-grid" class="wordle-grid"></div>
+            <div id="grid-error" class="grid-error"></div>
+        </section>
+
+        <section class="solution-view">
+            <div id="solution-render"></div>
+        </section>
+
+        <section class="solution-controls">
+            <button id="prev-solution" class="control-button">Prev</button>
+            <span id="solution-counter"></span>
+            <button id="next-solution" class="control-button">Next</button>
+        </section>
+    </main>
+
+</body>
+
+</html>
