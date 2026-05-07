@@ -30,6 +30,7 @@ function createTile(): HTMLDivElement {
 	tile.addEventListener("click", () => {
 		state = (state + 1) % 3;
 		applyState();
+		tile.dispatchEvent(new CustomEvent("tilechange", { bubbles: true }) );
 	});
 
 	return tile;
@@ -161,17 +162,48 @@ document.addEventListener("DOMContentLoaded", () => {
 	const gridError = document.getElementById("grid-error");
 	if (gridError === null) { throw new Error("Grid error element not found"); }
 
+	initializePage(
+		gridElement,
+		runButton,
+		solutionInput,
+		solutionError,
+		gridError
+	);
+});
+
+function initializePage(
+	gridElement: HTMLElement,
+	runButton: HTMLElement,
+	solutionInput: HTMLInputElement,
+	solutionError: HTMLElement,
+	gridError: HTMLElement
+): void {
 	createGrid(gridElement);
 
+	async function recompute(): Promise<void> {
+		await runCalculator(
+			solutionInput,
+			solutionError,
+			gridElement,
+			gridError
+		);
+	}
+
 	runButton.addEventListener("click", () => {
-		void runCalculator(solutionInput, solutionError, gridElement, gridError);
+		void recompute();
 	});
 
 	solutionInput.addEventListener("input", () => {
 		solutionInput.classList.remove("invalid");
 		solutionError.style.display = "none";
 		gridError.style.display = "none";
+
+		void recompute();
+	});
+
+	gridElement.addEventListener("tilechange", () => {
+		void recompute();
 	});
 
 	console.log("Page initialized.");
-});
+}
