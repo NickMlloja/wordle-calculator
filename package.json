@@ -9,23 +9,24 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint src --ext .ts --fix",
-    "test": "vitest run"
+    "lint": "eslint src --ext .ts",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
   "author": "Nicholas Mlloja",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0"
+    "rm": "^0.1.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@types/express": "^5.0.5",
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.53.1",
-    "jiti": "^2.6.1",
     "concurrently": "^8.2.0",
     "eslint": "^9.39.2",
+    "gh-pages": "^6.3.0",
+    "jiti": "^2.6.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.48.0",

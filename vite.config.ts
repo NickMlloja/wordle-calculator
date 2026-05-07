@@ -3,7 +3,7 @@ import path from 'path';
 
 export default defineConfig({
     root: 'src/frontend',
-    base: './',
+    base: '/wordle-calculator/',
     server: {
         port: 5173,
         strictPort: true,
@@ -19,7 +19,7 @@ export default defineConfig({
         }
     },
     build: {
-        outDir: '../../public',
+        outDir: '../../dist',
         emptyOutDir: true,
         sourcemap: true,
         target: 'esnext',

@@ -3,7 +3,7 @@ let cachedSolutionSet: Set<string> | null = null;
 export async function loadSolutionsCsv(): Promise<Set<string>> {
     if (cachedSolutionSet !== null) { return cachedSolutionSet; }
 
-    const response: Response = await fetch("/words/solutions.csv");
+    const response: Response = await fetch(import.meta.env.BASE_URL + "solutions.csv");;
     const text: string = await response.text();
 
     const lines: string[] = text.split("\n").map(line => line.trim().toLowerCase());

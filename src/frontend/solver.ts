@@ -21,7 +21,6 @@ function isRowAllCorrect(pattern: WordleInput): boolean {
     return pattern.every((s) => { return s === TileState.Correct; });
 }
 
-// Convert an input word and solution word into the 
 export function guessToInput(guess: string, solution: string): WordleInput {
     if (guess.length !== 5 || solution.length !== 5) {
         throw new Error("Expected 5 letter words");

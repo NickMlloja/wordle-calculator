@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
-    "types": [],
+    "types": ["vite/client"],
     "sourceMap": true,
     "declaration": false,
     "noUncheckedIndexedAccess": true,
