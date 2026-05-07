@@ -150,9 +150,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	const gridElement = document.getElementById("wordle-grid");
 	if (gridElement === null) { throw new Error("Wordle grid container not found"); }
 
-	const runButton = document.getElementById("run-calculator-button");
-	if (runButton === null) { throw new Error("Run Calculator button not found"); }
-
 	const solutionInput = document.getElementById("solution-input");
 	if (!(solutionInput instanceof HTMLInputElement)) { throw new Error("Solution input not found"); }
 
@@ -164,7 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	initializePage(
 		gridElement,
-		runButton,
 		solutionInput,
 		solutionError,
 		gridError
@@ -173,7 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initializePage(
 	gridElement: HTMLElement,
-	runButton: HTMLElement,
 	solutionInput: HTMLInputElement,
 	solutionError: HTMLElement,
 	gridError: HTMLElement
@@ -188,10 +183,6 @@ function initializePage(
 			gridError
 		);
 	}
-
-	runButton.addEventListener("click", () => {
-		void recompute();
-	});
 
 	solutionInput.addEventListener("input", () => {
 		solutionInput.classList.remove("invalid");
